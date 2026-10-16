@@ -123,7 +123,7 @@
     .progress-track >div {height:100%;background:var(--orange);width:0;transition:width .15s linear;box-shadow:0 0 15px rgba(214,93,56,.6);}
     .arena-bottom .line-group {display:flex;gap:15px;align-items:center;}
     .status-chip {color:#a5a9b2;}
-    .substats {display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-left:1px solid var(--line);border-right:1px solid var(--line);border-bottom:1px solid var(--line);}
+    .substats {display:grid;grid-template-columns:minmax(180px,.5fr) minmax(0,1fr);gap:0;border-left:1px solid var(--line);border-right:1px solid var(--line);border-bottom:1px solid var(--line);}
     .stat {min-height:98px;padding:22px 29px;display:flex;align-items:center;justify-content:space-between;border-right:1px solid var(--line);gap:18px;}
     .stat:last-child {border-right:0;}
     .stat-info small {display:block;font-size:10px;color:var(--muted);letter-spacing:1.3px;margin-bottom:7px;}
@@ -166,6 +166,7 @@
     .switch.on {background:#6b3529;border-color:#ab583c;}
     .switch.on:before {transform:translateX(13px);background:#f6b18d;}
     .draw-controls {display:grid;grid-template-columns:minmax(0,1fr) 53px;gap:9px;margin-top:23px;}
+    .substats .draw-controls {margin:0;padding:20px 28px;align-items:center;}
     .square-btn{padding:0;min-width:53px;}
     .draw-hint {display:flex;align-items:center;gap:9px;font-size:10px;color:#868d9a;margin-top:14px;line-height:1.4;}
     .draw-hint svg {width:15px;height:15px;color:var(--orange);}
@@ -257,7 +258,7 @@
       .arena-bottom{padding:0 13px;font-size:8px;}
       .arena-bottom .line-group{gap:8px;}
       .arena-bottom .line-group span:nth-child(2){display:none;}
-      .substats{grid-template-columns:repeat(3,1fr);}
+      .substats{grid-template-columns:1fr;}
       .stat{padding:16px 10px;min-height:81px;}
       .stat-num {display:none;}
       .stat-info small{font-size:8px;letter-spacing:.6px;}
@@ -355,6 +356,17 @@
     .prize-kicker {display:block;margin-top:18px;color:var(--orange-light);font-size:10px;letter-spacing:1.4px;}
     .prize-card h2 {font-size:13px;line-height:1.5;margin-top:16px;font-weight:500;color:var(--muted);text-align:center;}
     .prize-specs {font-size:11px;line-height:1.7;color:var(--muted);margin:8px 0 0;}
+    .draw-host {display:flex;align-items:center;gap:16px;margin-top:26px;padding-top:20px;border-top:1px solid var(--line);max-width:520px;}
+    .draw-host img {width:68px;height:78px;object-fit:cover;object-position:center 25%;border:1px solid var(--line);flex-shrink:0;}
+    .draw-host-copy {min-width:0;}
+    .draw-host-label {display:block;color:var(--orange-dark);font-size:9px;letter-spacing:1.3px;text-transform:uppercase;margin-bottom:7px;}
+    .draw-host-name {display:block;font-size:21px;font-weight:500;letter-spacing:-.6px;line-height:1.2;}
+    .draw-host-role {font-size:10px;color:var(--muted);line-height:1.7;margin:6px 0 0;}
+    .stage-host {display:flex;align-items:center;gap:20px;margin-left:auto;padding:12px 24px;border-left:3px solid var(--orange);background:var(--panel);}
+    .stage-prize .stage-host img {width:90px;height:104px;object-fit:cover;object-position:center 25%;border:1px solid var(--line);}
+    .stage-prize .stage-host small {font-size:11px;letter-spacing:1px;margin-bottom:10px;color:var(--orange-dark);}
+    .stage-prize .stage-host strong {font-size:clamp(26px,2.4vw,40px);font-weight:600;letter-spacing:-1px;}
+    @media(max-width:690px){.draw-host{margin-top:20px;gap:13px;}.draw-host-name{font-size:20px;}.stage-mode .stage-prize{flex-wrap:wrap;}.stage-host{width:100%;margin-left:0;padding:10px 14px;gap:14px;}.stage-prize .stage-host img{width:52px;height:60px;}.stage-prize .stage-host strong{font-size:24px;}.stage-prize .stage-host small{font-size:9px;margin-bottom:5px;}}
     .stage-prize {display:none;}
     .stage-mode .stage-prize {display:flex;align-items:center;gap:20px;flex-shrink:0;margin-bottom:16px;padding:10px 0;border-bottom:1px solid var(--line);}
     .stage-prize img {width:112px;height:72px;object-fit:contain;}
@@ -431,6 +443,35 @@
     @keyframes digit-turn {from{transform:rotateX(0)}to{transform:rotateX(-180deg)}}
     @media(max-width:690px){.clock-digits{gap:4px;}.clock-separator{padding:0 2px;font-size:25px;}.clock-digit{width:clamp(29px,8vw,48px);height:68px;}.digit-face{font-size:40px;}.clock-labels{max-width:100%;gap:12px;}}
     @media(prefers-reduced-motion:reduce){.clock-digit.turning .digit-cube{animation:none;}}
+    .reel-card {filter:blur(12px);transition:filter 1.5s ease;}
+    .arena.is-revealing .reel-card {filter:blur(0);}
+    .arena.is-spinning {border-color:#ff6719;box-shadow:0 0 30px #ff67192b,inset 0 0 45px #ff671916;}
+    .arena.is-spinning .reel-card {border-color:#ff6719;box-shadow:0 0 18px #ff67194d;}
+    .arena.is-spinning .center-marker {border-color:#ff6719;box-shadow:0 0 24px #ff671966;}
+    .draw-countdown {position:absolute;inset:0;z-index:5;display:grid;place-items:center;pointer-events:none;background:radial-gradient(ellipse at center,#f5f3ecd9,transparent 65%);}
+    .draw-countdown[hidden] {display:none;}
+    .draw-countdown span {font-size:clamp(110px,18vw,280px);font-weight:700;line-height:1;letter-spacing:-.08em;padding-right:.08em;color:var(--countdown-color,#ff6719);text-shadow:0 0 24px #ff671955,0 0 60px #ff671933;transition:color .25s;}
+    @media(prefers-reduced-motion:reduce){.reel-card,.draw-countdown span{transition:none;}.arena.is-spinning .live-dot{animation:none;}}
+    .hero {display:grid;grid-template-columns:minmax(380px,.9fr) minmax(0,1.4fr);gap:32px;align-items:center;}
+    .prize-and-host {display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);align-items:center;gap:24px;min-width:0;}
+    .prize-and-host .prize-card {width:auto;padding:0;border:0;min-width:0;}
+    .prize-and-host .prize-image {height:190px;}
+    .prize-and-host .draw-host {max-width:none;margin:0;padding:20px 0 20px 24px;border-top:0;border-left:1px solid var(--line);gap:18px;align-items:center;}
+    .prize-and-host .draw-host img {width:clamp(100px,9vw,144px);height:clamp(136px,12vw,176px);object-fit:cover;object-position:35% 20%;}
+    .prize-and-host .draw-host-name {font-size:clamp(22px,2vw,32px);}
+    .draw-host-role {font-size:11px;line-height:1.8;overflow-wrap:anywhere;}
+    .stage-mode .stage-prize {display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px;padding:12px 0 18px;align-items:stretch;}
+    .stage-award {display:flex;align-items:center;gap:24px;min-width:0;}
+    .stage-award img {width:clamp(130px,16vw,260px);height:140px;flex-shrink:0;}
+    .stage-award strong {display:block;max-width:360px;}
+    .stage-host {margin:0;padding:0 0 0 28px;border-left:1px solid var(--line);background:transparent;gap:24px;min-width:0;}
+    .stage-prize .stage-host img {width:144px;height:176px;object-position:35% 20%;flex-shrink:0;}
+    .stage-prize .stage-host strong {font-size:clamp(28px,3vw,46px);}
+    .stage-host .draw-host-role {font-size:13px;margin-top:10px;}
+    @media(max-width:1200px){.hero{grid-template-columns:1fr;gap:24px;}.prize-and-host{grid-template-columns:1fr 1.2fr;border-top:1px solid var(--line);padding-top:24px;}.prize-and-host .draw-host img{width:130px;height:160px;}.prize-and-host .draw-host-name{font-size:28px;}.stage-award{gap:14px;}.stage-prize .stage-host img{width:112px;height:138px;}.stage-host{gap:16px;padding-left:20px;}.stage-host .draw-host-role{font-size:11px;}}
+    @media(max-width:690px){.hero{gap:20px;}.prize-and-host{grid-template-columns:1fr;gap:20px;}.prize-and-host .prize-card{padding:0;}.prize-and-host .prize-image{height:160px;}.prize-and-host .draw-host{border-left:0;border-top:1px solid var(--line);padding:20px 0 0;}.prize-and-host .draw-host img{width:112px;height:144px;}.stage-mode .stage-prize{grid-template-columns:1fr;gap:12px;padding:8px 0 12px;}.stage-award img{width:88px;height:58px;}.stage-host{border-left:0;border-top:1px solid var(--line);padding:12px 0 0;gap:16px;}.stage-prize .stage-host img{width:76px;height:92px;}.stage-prize .stage-host strong{font-size:28px;}.stage-host .draw-host-role{font-size:10px;line-height:1.5;margin-top:5px;}}
+    @media(min-width:691px) and (max-height:750px){.stage-mode .stage-prize{padding:6px 0 10px;margin-bottom:10px;}.stage-prize .stage-host img{width:90px;height:110px;}.stage-award img{height:90px;}.stage-prize .stage-host strong{font-size:30px;}.stage-host .draw-host-role{font-size:11px;line-height:1.5;margin-top:5px;}}
+    .prize-and-host .draw-host img,.stage-prize .stage-host img {height:auto;aspect-ratio:1;object-position:center;}
   </style>
 </head>
 <body>
@@ -464,16 +505,32 @@
           <p class="clock-caption" id="clockCaption">17 ekim 2026 · 16.40 · istanbul</p>
         </div>
       </div>
+      <div class="prize-and-host">
       <aside class="prize-card" aria-label="Çekiliş ödülü">
         <img class="prize-image" src="https://latentshift.ai/draw/asus-rtx-5060-ti-8gb.webp" alt="ASUS Dual GeForce RTX 5060 Ti OC 8GB ekran kartı ve kutusu" fetchpriority="high" decoding="async" />
         <h2>ASUS Dual GeForce RTX 5060 Ti OC · 8GB</h2>
       </aside>
+        <div class="draw-host" aria-label="Hediyesi için Alican Kiraz'a teşekkürler">
+          <img src="https://cdn-avatars.huggingface.co/v1/production/uploads/672efc1e742ea2c59e45d630/UXEq8kvfjx4GlamAY4ho0.jpeg" alt="Alican Kiraz" width="144" height="176" decoding="async" />
+          <div class="draw-host-copy">
+            <span class="draw-host-label">Bu güzel hediye için teşekkürler</span>
+            <strong class="draw-host-name">Alican Kiraz</strong>
+            <p class="draw-host-role">Sr. Staff Engineer<br>AI/ML &amp; Agentic AI · Trendyol</p>
+          </div>
+        </div>
+      </div>
     </section>
 
     <main>
       <div class="stage-prize" aria-label="Çekiliş ödülü">
+        <div class="stage-award">
         <img src="https://latentshift.ai/draw/asus-rtx-5060-ti-8gb.webp" alt="ASUS RTX 5060 Ti kutusu" decoding="async" />
         <div><small>§ 09 / çekiliş</small><strong>ASUS RTX 5060 Ti OC · 8GB</strong></div>
+        </div>
+        <div class="stage-host">
+          <img src="https://cdn-avatars.huggingface.co/v1/production/uploads/672efc1e742ea2c59e45d630/UXEq8kvfjx4GlamAY4ho0.jpeg" alt="Alican Kiraz" width="144" height="176" decoding="async" />
+          <div><small>Bu güzel hediye için teşekkürler</small><strong>Alican Kiraz</strong><p class="draw-host-role">Sr. Staff Engineer<br>AI/ML &amp; Agentic AI · Trendyol</p></div>
+        </div>
       </div>
       <section class="arena" id="arena" aria-label="Çekiliş animasyonu" aria-live="off">
         <div class="arena-top">
@@ -489,6 +546,9 @@
           <div class="marker-triangle marker-top"></div>
           <div class="marker-triangle marker-bottom"></div>
           <div class="scanlines"></div>
+          <div class="draw-countdown" id="drawCountdown" role="timer" aria-label="Kazanan açıklanıyor" hidden>
+            <span id="drawCountdownNumber">10</span>
+          </div>
           <div class="winner-overlay" id="winnerOverlay" aria-live="polite">
             <div class="winner-topline">KAZANAN</div>
             <div class="winner-portrait-slot" id="winnerPortrait"></div>
@@ -508,8 +568,13 @@
 
       <section class="substats" aria-label="Çekiliş istatistikleri">
         <div class="stat"><div class="stat-info"><small>KATILIMCI</small><strong id="statParticipants">0</strong></div><div class="stat-num">↗ / 01</div></div>
-        <div class="stat"><div class="stat-info"><small>KAZANAN</small><strong id="statWinners">0</strong></div><div class="stat-num">◇ / 02</div></div>
-        <div class="stat"><div class="stat-info"><small>VERİ KAYNAĞI</small><strong id="statSource" style="font-size:17px;">LinkedIn</strong></div><div class="stat-num">↳ / 03</div></div>
+          <div class="draw-controls">
+            <button class="btn btn-orange btn-huge" id="drawButton" type="button">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
+              <span id="drawButtonLabel">ÇEKİLİŞİ BAŞLAT</span>
+            </button>
+            <button class="btn btn-outline square-btn" id="resetView" type="button" title="Kazanan görünümünü kapat" aria-label="Kazanan görünümünü kapat">↺</button>
+          </div>
       </section>
 
       <section class="controls">
@@ -547,20 +612,13 @@
           <div class="panel-header"><h2 id="drawTitle">§ 02 / Çekiliş kontrolü</h2><span class="panel-kicker">EXECUTE_</span></div>
           <div class="setting-row"><span class="setting-title">Önceki kazananlar tekrar seçilmesin</span><button class="switch on" id="excludeToggle" type="button" role="switch" aria-checked="true" aria-label="Önceki kazananları hariç tut"></button></div>
           <div class="setting-row"><span class="setting-title">Yorumu göster</span><button class="switch on" id="commentToggle" type="button" role="switch" aria-checked="true" aria-label="Kazananın yorumunu göster"></button></div>
-          <div class="draw-controls">
-            <button class="btn btn-orange btn-huge" id="drawButton" type="button">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
-              <span id="drawButtonLabel">ÇEKİLİŞİ BAŞLAT</span>
-            </button>
-            <button class="btn btn-outline square-btn" id="resetView" type="button" title="Kazanan görünümünü kapat" aria-label="Kazanan görünümünü kapat">↺</button>
-          </div>
           <div class="draw-hint" id="drawHint" hidden>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 16v-4m0-4h.01"/></svg>
             Katılımcıları yükleyerek başlayın.
           </div>
           <div class="history">
-            <div class="history-head"><span>Kazananlar / <span id="historyCount">00</span></span><button type="button" class="text-link" id="clearHistory">Sıfırla</button></div>
-            <div class="history-list" id="historyList"><span class="history-empty">Henüz kazanan seçilmedi.</span></div>
+            <div class="history-head"><button type="button" class="text-link" id="clearHistory">Sıfırla</button></div>
+            <div class="history-list" id="historyList"></div>
           </div>
         </div>
       </section>
@@ -678,7 +736,7 @@
       // Every unique entrant owns exactly one index; animation order cannot affect selection.
       const winner=pool[safeRandom(pool.length)];
       const others=shuffledPeople(pool.filter(person=>person.id!==winner.id));
-      const index=Math.min(78,others.length);
+      const index=Math.min(12,others.length);
       return {winner,index,items:[...others.slice(0,index),winner,...others.slice(index,index+3)]};
     }
     const normalized = s => String(s || '').normalize('NFKC').trim().replace(/\s+/g,' ').toLocaleLowerCase('tr-TR');
@@ -766,16 +824,11 @@
     function updateUI() {
       const left = eligible().length;
       $('statParticipants').textContent=String(left).padStart(2,'0');
-      $('statWinners').textContent=String(history.length).padStart(2,'0');
-      $('statSource').textContent=sourceType==='manual'?'İsim listesi':'LinkedIn';
       $('poolCountLabel').textContent=left+' KATILIMCI';
-      $('historyCount').textContent=formatTwo(history.length);
       $('excludeToggle').classList.toggle('on',excludePrevious);
       $('excludeToggle').setAttribute('aria-checked',String(excludePrevious));
       $('historyList').replaceChildren();
-      if (!history.length) {
-        const empty=document.createElement('span');empty.className='history-empty';empty.textContent='Henüz kazanan seçilmedi.';$('historyList').appendChild(empty);
-      } else {
+      if (history.length) {
         history.slice().reverse().forEach((w,ii)=>{
           const row=document.createElement('div');row.className='history-entry';
           const index=document.createElement('span');index.className='history-index';index.textContent='#'+formatTwo(history.length-ii);
@@ -940,6 +993,8 @@
     function setReelPos(x) {track.style.transform=`translate3d(${-x}px,0,0)`;}
     function idleReel(){
       if(spinning)return;
+      arena.classList.remove('is-revealing');
+      $('drawCountdown').hidden=true;
       if (!participants.length){track.replaceChildren();return;}
       const pool=eligible().length?eligible():participants;
       const items=shuffledPeople(pool).slice(0,19);
@@ -1003,6 +1058,21 @@
       }catch(e){}
     }
     function fanfare(){[740,910,1100].forEach((n,i)=>setTimeout(()=>beep(n,.25,.052),i*130));}
+    function drawMotion(elapsed,count,winnerIndex,centerIndex) {
+      const fastDuration=12000,speed=count>1?16:0;
+      const fastTravel=fastDuration/1000*speed;
+      let distance=count>1?((winnerIndex-centerIndex-fastTravel)%count+count)%count:0;
+      if(count>1)while(distance<16)distance+=count;
+      const revealDuration=count>1?distance*3/speed*1000:4000;
+      const duration=fastDuration+revealDuration;
+      const p=Math.max(0,Math.min(1,(elapsed-fastDuration)/revealDuration));
+      return {
+        phase:elapsed<2000?'fast':elapsed<fastDuration?'countdown':elapsed<duration?'reveal':'done',
+        countdown:elapsed>=2000&&elapsed<fastDuration?10-Math.floor((elapsed-2000)/1000):null,
+        travel:elapsed<fastDuration?Math.max(0,elapsed)/1000*speed:fastTravel+distance*(1-Math.pow(1-p,3)),
+        progress:Math.max(0,Math.min(1,elapsed/duration)),duration
+      };
+    }
     function beginDraw() {
       if(spinning||preparing||importing||pendingConfirmation||restoring||saving||saveError||loadFailed)return;
       const pool=eligible();
@@ -1013,9 +1083,13 @@
       showResult=false;spinning=true;
       winOverlay.classList.remove('visible');
       populateReel(items);
-      setReelPos(0);
-      const finalOffset=targetOffset(chosenIndex);
-      finalCardIndex=chosenIndex;
+      const centerIndex=Math.min(3,Math.floor((items.length-1)/2));
+      setReelPos(targetOffset(centerIndex));
+      finalCardIndex=centerIndex;
+      arena.classList.remove('is-revealing');
+      const countdown=$('drawCountdown');
+      countdown.hidden=true;
+      const reducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       arena.classList.add('is-spinning');
       $('reelStatus').textContent='ÇEKİLİŞ SÜRÜYOR';$('liveTag').textContent='BOL ŞANS';
       $('bottomStatus').textContent='SIRADAKİ KAZANAN SEÇİLİYOR';
@@ -1023,26 +1097,43 @@
       updateUI();
       $('resetView').disabled=true;
       $('stageResetView').disabled=true;
-      const duration=items.length===1?800:Math.min(7800,1800+chosenIndex*120);
       let start=null;
-      let lastTick=-1;
+      let lastTick=0,lastCount=null,lastPhase='';
       function run(time){
         if(start===null)start=time;
-        const p=Math.min(1,(time-start)/duration);
-        // Quartic easing with a long tail emulates case-opening reel deceleration.
-        const eased=1-Math.pow(1-p,4.5);
-        const pos=finalOffset*eased;
-        setReelPos(pos);
-        $('spinProgress').style.width=(p*100).toFixed(1)+'%';
-        const current=Math.round((pos/(track.children[0].offsetWidth+13)));
-        if (current!==lastTick){
+        const state=drawMotion(time-start,items.length,chosenIndex,centerIndex);
+        const travel=reducedMotion?(state.phase==='done'?state.travel:0):state.travel;
+        const current=Math.floor(travel+1e-8);
+        if(current!==lastTick){
+          // Recycle existing cards instead of adding duplicate entrants to the reel.
+          const steps=(current-lastTick)%items.length;
+          for(let i=0;i<steps;i++){
+            track.appendChild(track.firstElementChild);
+            currentDisplayItems.push(currentDisplayItems.shift());
+          }
           lastTick=current;
-          if(p>.6 || current%4===0)beep(430+Math.min(400,current*4),.018,.009);
+          if(state.phase==='reveal'||current%4===0)beep(560,.018,.009);
         }
-        if(p<1)raf=requestAnimationFrame(run);
+        const gap=parseFloat(getComputedStyle(track).columnGap)||13;
+        const step=track.children[0].offsetWidth+gap;
+        setReelPos(targetOffset(centerIndex)+Math.max(0,travel-current)*step);
+        $('spinProgress').style.width=(state.progress*100).toFixed(1)+'%';
+        if(state.phase!==lastPhase){
+          lastPhase=state.phase;
+          arena.classList.toggle('is-revealing',state.phase==='reveal'||state.phase==='done');
+          countdown.hidden=state.phase!=='countdown';
+          if(state.phase==='reveal')$('bottomStatus').textContent='KAZANAN AÇIKLANIYOR';
+        }
+        if(state.countdown!==null&&state.countdown!==lastCount){
+          lastCount=state.countdown;
+          $('drawCountdownNumber').textContent=String(lastCount);
+          countdown.style.setProperty('--countdown-color',['#ff6719','#e69500','#ed3e1a'][lastCount%3]);
+          beep(600+(10-lastCount)*45,.09,.025);
+        }
+        if(state.phase!=='done')raf=requestAnimationFrame(run);
         else {
-          setReelPos(finalOffset);
-          track.children[chosenIndex].classList.add('target-card');
+          setReelPos(targetOffset(centerIndex));
+          track.children[centerIndex].classList.add('target-card');
           spinning=false;
           history.push({...winner,time:new Date().toISOString()});
           persist();
