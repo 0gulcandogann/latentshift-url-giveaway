@@ -1,0 +1,9 @@
+.env
+node_modules/
+tmp/
+reports/
+data/
+*.sqlite
+*.sqlite-journal
+*.sqlite-wal
+*.sqlite-shm
